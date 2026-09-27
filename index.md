@@ -31,7 +31,8 @@ lang: pl
 
 ## Modele pomocnicze i benchmark
 
-- **Nauczyciel i sędzia:** Gemma 4 31B (destylacja), DeepSeek V4.1 Flash (sędzia, dane syntetyczne), Claude (ocena referencyjna)
+- **Nauczyciel i sędzia:** Gemma 4 31B (destylacja), DeepSeek V4.1 Flash (sędzia, dane syntetyczne), Claude Opus 5.5 (ocena referencyjna)
+- **RAG:** PolDense-1B + polski reranker (Wikipedia), SSCD (obrazy)
 - **Benchmark:** Bielik 1.5B–11B, PLLuM 4B–12B, Qwen3 / 3.5 / 3.8 (0.8B–35B), Gemma 3 i 4 (E4B–31B), Ministral 8B/14B, GPT-4.1 mini, Hy-MT2 1.8B
 <!-- src: benchmark/models.yaml -->
 

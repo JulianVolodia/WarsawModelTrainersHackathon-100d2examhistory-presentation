@@ -25,7 +25,7 @@ th{background:#f5f5f5}code{font-size:.9em}p.note{color:#666;font-size:.9em}
 <h2>Modele trenowane przez zespół</h2>
 <table>
 <tr><th>Model bazowy</th><th>Co zrobiono</th><th>Gdzie</th><th>Wynik</th></tr>
-<tr><td>Gemma 4 12B (QAT Q4_0, <code>google/gemma-4-12B-it-qat-q4_0-unquantized</code>)</td><td>QLoRA NF4 → adapter GGUF; SFT, RFT, RFT z myśleniem, turniej hiperparametrów; HF <code>WMTH-100d2exam/history-lora</code></td><td>L40S</td><td>val: v3-rft-think 44,5 %, po turnieju r4/r8 50,8 % (baza z myśleniem 49,2 %; ocena Claude)</td></tr>
+<tr><td>Gemma 4 12B (QAT Q4_0, <code>google/gemma-4-12B-it-qat-q4_0-unquantized</code>)</td><td>QLoRA NF4 → adapter GGUF; SFT, RFT, RFT z myśleniem, turniej hiperparametrów; HF <code>WMTH-100d2exam/history-lora</code></td><td>L40S, Runpod A100</td><td>val: v3-rft-think 44,5 %, po turnieju r4/r8 50,8 % (baza z myśleniem 49,2 %; ocena Claude)</td></tr>
 <tr><td>Gemma 4 12B</td><td>SFT LoRA r32 (ślady myślenia), SFT wizyjne QLoRA, SFT→GRPO; HF <code>gemma-4-12B-it-qat-matura-history-sft-lora-r32</code></td><td>H100</td><td>SFT@think 70,4 % vs baza 57,0 % (exact match, 321 pytań zamkniętych)</td></tr>
 <tr><td>Gemma 3 12B</td><td>SFT, potem GRPO na pytaniach zamkniętych</td><td>H100</td><td>SFT 66,4 %, SFT→GRPO 68,2 % (baza 45,5 %)</td></tr>
 <tr><td>Bielik-11B v3.0 Instruct</td><td>SFT, SFT→GRPO, GRPO od bazy (3 adaptery na HF)</td><td>H100</td><td>baza 13,3 → SFT 77,0 % (exact match, 317 pytań zamkniętych)</td></tr>
@@ -37,13 +37,17 @@ th{background:#f5f5f5}code{font-size:.9em}p.note{color:#666;font-size:.9em}
 <tr><td>history-lora v6-dpo-vision-text</td><td>adapter DPO tekst+obraz</td><td>Nebius H100</td><td>tylko test pokrycia, bez oceny</td></tr>
 </table>
 
-<h2>Modele używane jako nauczyciel, sędzia lub generator danych</h2>
+<h2>Modele pomocnicze: nauczyciel, sędziowie, generator danych, RAG</h2>
 <table>
 <tr><th>Model</th><th>Rola</th></tr>
 <tr><td>Gemma 4 31B QAT (w4a16, vLLM)</td><td>nauczyciel (destylacja, 4 odpowiedzi na pytanie) i sędzia na H100</td></tr>
 <tr><td>DeepSeek <code>deepseek-flash</code> / <code>deepseek-flash-high@think</code></td><td>sędzia benchmarku; generator danych syntetycznych (22,57 USD)</td></tr>
-<tr><td>Claude (subagenty Opus/Sonnet, Fable)</td><td>ocena referencyjna (kalibracja sędziów, RFT, ślepa ocena pakietu finałowego)</td></tr>
+<tr><td>Claude Opus 5.5 (subagenty Claude Code)</td><td>ocena referencyjna (kalibracja sędziów, RFT, ślepa ocena pakietu finałowego)</td></tr>
+<tr><td><code>gpt-6-astra</code> (przez Codex CLI)</td><td>wczesny sędzia w <code>harness/grading.py</code>, wycofany</td></tr>
 <tr><td>Gemma 4 12B jako sędzia</td><td>odrzucona: ok. 11 pkt za łagodna</td></tr>
+<tr><td><code>OPI-PIB/PolDense-1B</code> + <code>sdadas/polish-reranker-roberta-v3</code></td><td>RAG: wyszukiwanie w polskiej Wikipedii</td></tr>
+<tr><td>SSCD (embedding obrazów)</td><td>wyszukiwanie artykułu po obrazku</td></tr>
+<tr><td><code>mmproj</code> Gemma 4 12B</td><td>projektor wizyjny do llama.cpp (obrazki w egzaminie)</td></tr>
 </table>
 
 <h2>Modele tylko benchmarkowane</h2>
