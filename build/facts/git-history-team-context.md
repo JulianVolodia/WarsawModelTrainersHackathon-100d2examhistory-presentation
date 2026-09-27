@@ -1,5 +1,7 @@
 # git-history-team-context
 
+> **Correction by the orchestrator (27.09.2026, verified with `git shortlog -sn main` at `6d8d52d7`):** the 9 git identities are **6 distinct people** (JulianVolodia = Volodia, Szymon Hajderek = szymon-hajderek, Olaf Serafin = o-serafin, plus Pawel Cyrta, endote, hiderr), not 7. `main` has **142 commits** after the 27.09 pull (135 at `9ed0effa`). First commit `a0c34b89` 25.09.2026 21:14:25 +0200 → last `6d8d52d7` 27.09.2026 10:01:55 UTC = **38.8 hours** (not ~62 h).
+
 ## Summary
 
 The team repo is `WarsawModelTrainersHackathon` (GitHub `Endote/WarsawModelTrainersHackathon`, private), branch

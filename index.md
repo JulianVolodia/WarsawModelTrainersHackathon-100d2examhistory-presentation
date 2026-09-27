@@ -21,24 +21,24 @@ lang: pl
 
 <div class="kpis" markdown="1">
 <div markdown="1">
-<div class="big-number">7</div>
+<div class="big-number">6</div>
 <p>autorów w git</p>
 </div>
 <div markdown="1">
-<div class="big-number">135+</div>
+<div class="big-number">142</div>
 <p>commitów na main</p>
 </div>
 <div markdown="1">
-<div class="big-number">~62 h</div>
-<p>od pierwszego commita</p>
+<div class="big-number">~39 h</div>
+<p>od pierwszego do ostatniego commita</p>
 </div>
 </div>
 
 - Cel: matura rozszerzona z historii (CKE) rozwiązana przez model, odpowiedzi w formacie organizatorów
 - Równolegle: dane, benchmark, harness, trening, dane syntetyczne, zgłoszenie
-<!-- src: build/facts/git-history-team-context.md "Summary" (135 commits at 9ed0effa, 25.09 21:14 → 27.09 10:46; 7 authors) -->
+<!-- src: git shortlog -sn main @6d8d52d7: 9 identities = 6 people (JulianVolodia=Volodia, Szymon Hajderek=szymon-hajderek, Olaf Serafin=o-serafin, Pawel Cyrta, endote, hiderr); git rev-list --count main = 142; first commit a0c34b89 25.09 21:14 +0200 → last 6d8d52d7 27.09 10:01 UTC = 38.8 h -->
 
-<aside class="notes">Siedem osób, ponad sto trzydzieści commitów w niecałe trzy doby. Praca szła równolegle w kilku strumieniach.</aside>
+<aside class="notes">Sześć osób, sto czterdzieści dwa commity w niecałe czterdzieści godzin. Praca szła równolegle w kilku strumieniach.</aside>
 
 ---
 
