@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>100d2exam — modele i dane</title>
+<style>
+body{font:16px/1.45 system-ui,sans-serif;max-width:900px;margin:32px auto;padding:0 16px;color:#222;background:#fff}
+h1{font-size:1.6em}h2{font-size:1.2em;margin-top:1.6em;border-bottom:2px solid #b3261e;padding-bottom:.2em}
+table{border-collapse:collapse;width:100%;font-size:.95em}th,td{border:1px solid #ddd;padding:4px 8px;text-align:left;vertical-align:top}
+th{background:#f5f5f5}code{font-size:.9em}p.note{color:#666;font-size:.9em}
+@media (prefers-color-scheme:dark){body{background:#191919;color:#ddd}th{background:#222}th,td{border-color:#333}p.note{color:#aaa}}
+</style>
+</head>
+<body>
+<!-- Widok w strukturze frameworka Ward (viewhead/viewbody); działa też jako zwykła strona. -->
+<viewhead>
+<title>100d2exam — modele i dane</title>
+</viewhead>
+<viewbody>
+
+<h1>Zespół 100d2exam — jakie modele i ile danych</h1>
+<p class="note">Warsaw Model Trainers Hackathon, 25–27.09.2026. Stan repo zespołu z 27.09 (<code>6d8d52d7</code>). Wyniki w tabelach to oceny modeli (Claude / DeepSeek / exact match), nie oficjalny klucz.</p>
+
+<h2>Modele trenowane przez zespół</h2>
+<table>
+<tr><th>Model bazowy</th><th>Co zrobiono</th><th>Gdzie</th><th>Wynik</th></tr>
+<tr><td>Gemma 4 12B (QAT Q4_0, <code>google/gemma-4-12B-it-qat-q4_0-unquantized</code>)</td><td>QLoRA NF4 → adapter GGUF; SFT, RFT, RFT z myśleniem, turniej hiperparametrów; HF <code>WMTH-100d2exam/history-lora</code></td><td>L40S</td><td>val: v3-rft-think 44,5 %, po turnieju r4/r8 50,8 % (baza z myśleniem 49,2 %; ocena Claude)</td></tr>
+<tr><td>Gemma 4 12B</td><td>SFT LoRA r32 (ślady myślenia), SFT wizyjne QLoRA, SFT→GRPO; HF <code>gemma-4-12B-it-qat-matura-history-sft-lora-r32</code></td><td>H100</td><td>SFT@think 70,4 % vs baza 57,0 % (exact match, 321 pytań zamkniętych)</td></tr>
+<tr><td>Gemma 3 12B</td><td>SFT, potem GRPO na pytaniach zamkniętych</td><td>H100</td><td>SFT 66,4 %, SFT→GRPO 68,2 % (baza 45,5 %)</td></tr>
+<tr><td>Bielik-11B v3.0 Instruct</td><td>SFT, SFT→GRPO, GRPO od bazy (3 adaptery na HF)</td><td>H100</td><td>baza 13,3 → SFT 77,0 % (exact match, 317 pytań zamkniętych)</td></tr>
+<tr><td>Qwen3.5-9B</td><td>SFT, SFT→GRPO (2 adaptery)</td><td>H100</td><td>61,2 → 75,4 %</td></tr>
+<tr><td>Ministral-3 8B Instruct 2512</td><td>SFT, SFT→GRPO, GRPO od bazy (3 adaptery)</td><td>H100</td><td>8,8 → 72,6 % (SFT→GRPO 62,2 %)</td></tr>
+<tr><td>Qwen3.8-27B (IQ2_S)</td><td>LoRA r16 na wagach w kwantyzacji wdrożeniowej; HF <code>BASELINE_IMPROVEMENT_QWEN_3.8_Q2_S_100D2EXAMHISTORY</code></td><td>H100 / H200</td><td>pakiet finałowy C-v4: 42/60 vs baza 35/60 (Claude); DeepSeek 43 vs 42</td></tr>
+<tr><td>Qwen3.5-2B</td><td>LoRA r8 „overfit” na ostatnich latach; źródło halucynacji z bonusu</td><td>vLLM</td><td>baza 15,0 % (45/300)</td></tr>
+<tr><td>Micro100d2examGPT (123M, od zera)</td><td>architektura MicroGPT, własny backend Ollama/llama.cpp; HF <code>WMTH-100d2exam/Micro100d2examGPT</code></td><td>—</td><td>benchmark na :8025</td></tr>
+<tr><td>history-lora v6-dpo-vision-text</td><td>adapter DPO tekst+obraz</td><td>Nebius H100</td><td>tylko test pokrycia, bez oceny</td></tr>
+</table>
+
+<h2>Modele używane jako nauczyciel, sędzia lub generator danych</h2>
+<table>
+<tr><th>Model</th><th>Rola</th></tr>
+<tr><td>Gemma 4 31B QAT (w4a16, vLLM)</td><td>nauczyciel (destylacja, 4 odpowiedzi na pytanie) i sędzia na H100</td></tr>
+<tr><td>DeepSeek <code>deepseek-flash</code> / <code>deepseek-flash-high@think</code></td><td>sędzia benchmarku; generator danych syntetycznych (22,57 USD)</td></tr>
+<tr><td>Claude (subagenty Opus/Sonnet, Fable)</td><td>ocena referencyjna (kalibracja sędziów, RFT, ślepa ocena pakietu finałowego)</td></tr>
+<tr><td>Gemma 4 12B jako sędzia</td><td>odrzucona: ok. 11 pkt za łagodna</td></tr>
+</table>
+
+<h2>Modele tylko benchmarkowane</h2>
+<p>Bielik, PLLuM (self-hosted vLLM), Qwen3 4B, Gemma 4 E4B, Gemma 4 12B i QAT, Qwen3.5 2B/9B, HyperCLOVA X 1.8B, modele przez OpenRouter i DeepSeek — dziesiątki kolumn w <code>benchmark/RESULTS.html</code>.</p>
+
+<h2>Ile mieliśmy danych</h2>
+<table>
+<tr><th>Zbiór</th><th>Ilość</th></tr>
+<tr><td>Arkusze CKE 2005–2026 (PDF + klucze)</td><td>67 arkuszy → 2 098 pytań (ekstrakcja deterministyczna)</td></tr>
+<tr><td>Pakiety ewaluacyjne w formacie organizatorów 2017–2026</td><td>40 pakietów; osobno 27 arkuszy 2005–2016: 655 pytań, 425 wycinków PNG</td></tr>
+<tr><td>Zadania z obrazkami (styl CKE)</td><td>478 (748 na gałęzi)</td></tr>
+<tr><td>E-podręczniki</td><td>20,3 tys. pytań i odpowiedzi; 231 esejów</td></tr>
+<tr><td>Zadania syntetyczne wg podstawy programowej</td><td>3 600 zweryfikowanych</td></tr>
+<tr><td>Zadania syntetyczne z Wikipedii (DeepSeek)</td><td>5 010 esejów, 5 040 zamkniętych, 5 063 otwartych</td></tr>
+<tr><td>Zbiór SFT/RL na H100</td><td>21,8 tys. promptów, 682 walidacyjne; 1 594 zweryfikowane ślady nauczyciela; SFT 7,9 tys., GRPO 4,0 tys.</td></tr>
+<tr><td>Zbiór SFT na L40S (Gemma)</td><td>608 train / 111 val / 291 test; RFT: 1 212 próbek ocenionych przez Claude, 359 przykładów z myśleniem</td></tr>
+<tr><td>Kalibracja sędziów</td><td>728 odpowiedzi ocenionych równolegle przez Claude i DeepSeek</td></tr>
+</table>
+
+</viewbody>
+</body>
+</html>
