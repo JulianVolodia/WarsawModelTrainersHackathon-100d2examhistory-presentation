@@ -1,0 +1,20 @@
+title: "Warsaw Model Trainers Hackathon 2026 — zespół 100d2exam, historia rozszerzona"
+description: "Prezentacja: co działo się w repo zespołu 100d2exam podczas Warsaw Model Trainers Hackathon (25–27.09.2026)."
+lang: pl
+url: "https://julianvolodia.github.io"
+baseurl: "/WarsawModelTrainersHackathon-100d2examhistory-presentation"
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter_opts:
+    disable: true
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - node_modules
+  - LICENSE

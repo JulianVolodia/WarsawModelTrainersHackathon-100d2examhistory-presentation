@@ -1,0 +1,84 @@
+/* Deck styles on top of the reveal.js white/black themes. */
+:root {
+  --deck-accent: #b3261e;   /* CKE red, the colour of the matura header */
+  --deck-muted: #6b6b6b;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --deck-accent: #ff8a80; --deck-muted: #b0b0b0; }
+}
+
+.reveal { font-size: 30px; }
+.reveal h1 { font-size: 1.9em; text-transform: none; letter-spacing: -0.01em; }
+.reveal h2 { font-size: 1.35em; text-transform: none; margin-bottom: 0.5em; }
+.reveal h3 { font-size: 1.05em; text-transform: none; color: var(--deck-muted); }
+.reveal h2::after {
+  content: ""; display: block; width: 2.2em; height: 3px; margin-top: 0.25em; background: var(--deck-accent);
+}
+.reveal section.title h1 { font-size: 2.2em; }
+.reveal section.title h2::after { display: none; }
+.reveal section.title h2 { color: var(--deck-muted); font-weight: normal; }
+.reveal section.section-title h2 { font-size: 1.8em; }
+.reveal section.section-title h2::after { width: 3em; }
+
+.reveal ul, .reveal ol { display: block; margin-left: 1.2em; }
+.reveal li { margin: 0.18em 0; line-height: 1.3; }
+.reveal li li { font-size: 0.9em; }
+.reveal p { line-height: 1.35; }
+.reveal strong { color: var(--deck-accent); font-weight: 600; }
+.reveal blockquote { width: 92%; font-size: 0.9em; box-shadow: none; border-left: 4px solid var(--deck-accent); padding-left: 0.8em; font-style: normal; }
+.reveal code { font-size: 0.85em; }
+.reveal pre { width: 96%; font-size: 0.5em; line-height: 1.3; box-shadow: none; }
+.reveal pre code { max-height: 480px; }
+
+.reveal table { font-size: 0.7em; margin: 0.3em auto; border-collapse: collapse; }
+.reveal table th { border-bottom: 2px solid var(--deck-accent); text-align: left; }
+.reveal table td, .reveal table th { padding: 0.25em 0.6em; }
+.reveal table td:nth-child(n+2):not(:first-child) { white-space: nowrap; }
+.reveal table.wide { font-size: 0.6em; }
+
+.reveal .small, .reveal small { font-size: 0.72em; }
+.reveal .muted { color: var(--deck-muted); }
+.reveal .cols { display: flex; gap: 1.2em; text-align: left; }
+.reveal .cols > * { flex: 1 1 0; min-width: 0; }
+.reveal .footnote { position: absolute; bottom: 0.6em; left: 0; right: 0; font-size: 0.55em; color: var(--deck-muted); text-align: center; }
+.reveal img { max-height: 520px; box-shadow: none; }
+.reveal .big-number { font-size: 3.2em; font-weight: 700; line-height: 1; color: var(--deck-accent); margin: 0.1em 0; }
+.reveal .kpis { display: flex; gap: 1em; justify-content: center; }
+.reveal .kpis > div { flex: 1 1 0; }
+.reveal .kpis .big-number { font-size: 2.4em; }
+.reveal .kpis p { font-size: 0.7em; margin: 0.2em 0; }
+
+/* Mode toggle (top right) */
+#mode-toggle {
+  position: fixed; top: 10px; right: 12px; z-index: 100; font: 13px/1 system-ui, sans-serif;
+  color: var(--deck-muted); text-decoration: none; opacity: 0.5; padding: 4px 8px; border: 1px solid currentColor; border-radius: 4px;
+}
+#mode-toggle:hover { opacity: 1; }
+
+/* Document mode: plain readable page, slides separated by rules */
+#deck-source { display: none; }
+body.doc-mode #deck { display: none; }
+body.doc-mode { margin: 0; background: #fff; color: #222; font: 17px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+body.doc-mode #deck-source { display: block; max-width: 860px; margin: 0 auto; padding: 32px 16px 64px; }
+body.doc-mode #deck-source hr { border: 0; border-top: 1px solid #ddd; margin: 2.2em 0; }
+body.doc-mode #deck-source h1 { font-size: 2em; margin-top: 0.2em; }
+body.doc-mode #deck-source h2 { font-size: 1.4em; margin-top: 0.4em; }
+body.doc-mode #deck-source h2::after { content: ""; display: block; width: 3em; height: 3px; margin-top: 0.3em; background: var(--deck-accent); }
+body.doc-mode #deck-source table { border-collapse: collapse; font-size: 0.92em; }
+body.doc-mode #deck-source th, body.doc-mode #deck-source td { border: 1px solid #ddd; padding: 4px 10px; }
+body.doc-mode #deck-source pre { background: #f5f5f5; padding: 12px; overflow-x: auto; font-size: 0.85em; }
+body.doc-mode #deck-source aside.notes { border-left: 4px solid #ccc; padding: 6px 12px; margin: 1em 0; color: #555; font-size: 0.9em; }
+body.doc-mode #deck-source aside.notes::before { content: "Notatki prelegenta"; display: block; font-weight: 600; font-size: 0.8em; text-transform: uppercase; letter-spacing: 0.05em; }
+body.doc-mode .cols { display: flex; gap: 24px; }
+body.doc-mode .cols > * { flex: 1 1 0; }
+body.doc-mode .footnote { color: #777; font-size: 0.85em; }
+body.doc-mode .big-number { font-size: 2.4em; font-weight: 700; color: var(--deck-accent); }
+body.doc-mode .kpis { display: flex; gap: 24px; text-align: center; }
+@media (prefers-color-scheme: dark) {
+  body.doc-mode { background: #191919; color: #ddd; }
+  body.doc-mode #deck-source hr { border-top-color: #333; }
+  body.doc-mode #deck-source th, body.doc-mode #deck-source td { border-color: #333; }
+  body.doc-mode #deck-source pre { background: #222; }
+  body.doc-mode #deck-source aside.notes { border-left-color: #444; color: #aaa; }
+}
+@media (max-width: 700px) { .reveal .cols, body.doc-mode .cols, .reveal .kpis, body.doc-mode .kpis { flex-direction: column; } }

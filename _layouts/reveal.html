@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="{{ page.lang | default: site.lang | default: 'pl' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title | default: site.title }}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/theme/white.min.css" media="(prefers-color-scheme: light)">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/theme/black.min.css" media="(prefers-color-scheme: dark)">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/highlight/monokai.min.css">
+  <link rel="stylesheet" href="{{ '/assets/css/deck.css' | relative_url }}">
+</head>
+<body>
+  <a id="mode-toggle" href="#" title="Przełącz między slajdami a widokiem dokumentu">Tryb dokumentu</a>
+
+  <!-- Jekyll renders the Markdown here; each "---" becomes an <hr>, which the script below turns into a slide boundary. -->
+  <article id="deck-source">
+{{ content }}
+  </article>
+
+  <div class="reveal" id="deck">
+    <div class="slides" id="deck-slides"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/notes/notes.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/highlight/highlight.min.js"></script>
+  <script>
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var docMode = params.has('doc');
+    var toggle = document.getElementById('mode-toggle');
+
+    if (docMode) {
+      document.body.classList.add('doc-mode');
+      toggle.textContent = 'Tryb slajdów';
+      toggle.href = window.location.pathname;
+      return;
+    }
+    toggle.href = window.location.pathname + '?doc=1';
+
+    // Split the rendered Markdown into <section> slides at every <hr>.
+    // A comment of the form <!-- .slide: data-background-color="#fff" class="title" --> sets attributes on its slide
+    // (the same convention as reveal.js's own Markdown plugin).
+    var source = document.getElementById('deck-source');
+    var slides = document.getElementById('deck-slides');
+    var section = document.createElement('section');
+    var attrRe = /([\w-]+)\s*=\s*"([^"]*)"/g;
+
+    function flush() {
+      var meaningful = section.textContent.trim() || section.querySelector('img, svg, table, video');
+      if (meaningful) slides.appendChild(section);
+      section = document.createElement('section');
+    }
+
+    Array.prototype.slice.call(source.childNodes).forEach(function (node) {
+      if (node.nodeType === 1 && node.tagName === 'HR') { flush(); return; }
+      if (node.nodeType === 8) {
+        var m = /\.slide:\s*(.*)/.exec(node.nodeValue);
+        if (m) {
+          var a;
+          while ((a = attrRe.exec(m[1])) !== null) {
+            if (a[1] === 'class') section.classList.add.apply(section.classList, a[2].split(/\s+/));
+            else section.setAttribute(a[1], a[2]);
+          }
+          return;
+        }
+      }
+      section.appendChild(node);
+    });
+    flush();
+    source.remove();
+
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      width: 1280,
+      height: 720,
+      margin: 0.06,
+      minScale: 0.2,
+      maxScale: 1.6,
+      transition: 'fade',
+      controlsTutorial: false,
+      plugins: [RevealNotes, RevealHighlight]
+    });
+  })();
+  </script>
+</body>
+</html>
